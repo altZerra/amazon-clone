@@ -1,7 +1,7 @@
-
+import {cart} from '../data/cart.js';
 
 let productsHTML='';
-
+const addedToCartTimeouts = {}; 
 products.forEach((product)=> {
   productsHTML+=`<div class="product-container">
           <div class="product-image-container">
@@ -26,7 +26,7 @@ products.forEach((product)=> {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -42,9 +42,9 @@ products.forEach((product)=> {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
-            Added
+            Added 
           </div>
 
           <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">   
@@ -60,6 +60,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     
    const productId=button.dataset.productId;
    let matchingItem;
+   const quantity =Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+   console.log(quantity);
    cart.forEach((item)=>{
     if(productId===item.productId)
     {
@@ -75,18 +77,24 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
    cart.push({
 
     productId:productId,
-    Quantity:1
+    Quantity:quantity
 
-   });
+   }); 
   }
   let cartQuantity=0;
   cart.forEach((item)=>{
     cartQuantity += item.Quantity;
-
-
-
   });
+  
   document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+  if (addedToCartTimeouts[productId]) {
+      clearTimeout(addedToCartTimeouts[productId]);
+    }
+  document.querySelector(`.js-added-to-cart-${productId}`).classList.add('added-to-cart-active');
+  addedToCartTimeouts[productId] = setTimeout(() => {
+      document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('added-to-cart-active');
+      addedToCartTimeouts[productId] = null;
+    }, 1500);
   console.log(cartQuantity);
   
   console.log(cart);
