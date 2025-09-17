@@ -5,6 +5,7 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { deliveryOptions,getDeliveryOption } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 
+
 export function renderOrderSummary(){
     let cartSummaryHTML='';
     cart.forEach((cartItem)=>{
@@ -114,7 +115,8 @@ export function renderOrderSummary(){
         else{
       const container= document.querySelector(`.js-cart-item-container-${productId}`).remove();
         }
-      
+        
+      updateCartQuantity();
      renderPaymentSummary();
         
          

@@ -14,7 +14,7 @@ if(!cart){
 ];
 }
 
-function saveToStorage(){
+export function saveToStorage(){
   localStorage.setItem('cart',JSON.stringify(cart));
 }
 export function addToCart(productId,quantity){
@@ -72,7 +72,13 @@ export function updateCartQuantity(){
   cart.forEach((item)=>{
     cartQuantity += item.Quantity;
   });
+
   document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+  if(document.querySelector('.js-items'))
+  {
+  document.querySelector('.js-items').innerHTML=`${cartQuantity} items`;
+  }
+  
 }
 
 
